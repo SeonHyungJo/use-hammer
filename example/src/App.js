@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useCallback } from 'react'
+import useHammer from 'use-hammer'
 
-import { useMyHook } from 'use-hammer'
 
 const App = () => {
-  const example = useMyHook()
+  const onHammer = useCallback(() => {
+    console.log('Long Press')
+  }, [])
+
+  const [hammerDown, hammerUp] = useHammer({onHammer})
   return (
-    <div>
-      {example}
-    </div>
+    <div className={"sample-div"} onMouseDown={()=> hammerDown()} onMouseUp={() => hammerUp()}/>
   )
 }
 export default App

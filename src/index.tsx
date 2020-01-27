@@ -1,23 +1,44 @@
-import * as React from 'react';
+import { useState, useEffect, useCallback } from "react";
 
-export const useMyHook = () => {
-  let [{
-    counter
-  }, setState] = React.useState<{
-    counter: number;
-  }>({
-    counter: 0
-  });
+interface Props {
+  onHammer: Function;
+  second?: number;
+}
 
-  React.useEffect(() => {
-    let interval = window.setInterval(() => {
-      counter++;
-      setState({counter})
-    }, 1000)
-    return () => {
-      window.clearInterval(interval);
-    };
-  }, []);
+const useHammer = ({ onHammer, second = 700 }: Props) => {
+  const [isMouseDown, setMouseDown] = useState(false);
+  const [isLongPress, setLongPress] = useState(false);
 
-  return counter;
+  const handleDown = useCallback(() => {
+    setMouseDown(true);
+  }, [isMouseDown]);
+
+  const handleUp = useCallback(() => {
+    setMouseDown(false);
+    setLongPress(false);
+  }, [isMouseDown]);
+
+  useEffect(() => {
+    if (isMouseDown) {
+      const timer = setTimeout(() => {
+        setLongPress(true);
+      }, second);
+
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+
+    return;
+  }, [isMouseDown]);
+
+  useEffect(() => {
+    if (isLongPress) {
+      onHammer();
+    }
+  }, [isLongPress]);
+
+  return [handleDown, handleUp];
 };
+
+export default useHammer;
