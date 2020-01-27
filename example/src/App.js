@@ -1,14 +1,28 @@
-import React, { useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import useHammer from 'use-hammer'
 
 const App = () => {
+  const [draggable, setDraggable] = useState(false)
   const onHammer = useCallback(() => {
-    console.log('Long Press')
+    setDraggable(true)
   }, [])
 
-  const [hammerDown, hammerUp] = useHammer({onHammer})
+  const handleDragEnd = useCallback(() => {
+    hammerUp()
+    setDraggable(false)
+  })
+
+  const [hammerDown, hammerUp] = useHammer({ onHammer })
   return (
-    <div className={"sample-div"} onMouseDown={()=> hammerDown()} onMouseUp={() => hammerUp()}/>
+    <div
+      className={"sample-div"}
+      draggable={draggable}
+      onMouseDown={() => hammerDown()}
+      onMouseUp={() => hammerUp()}
+      onDragEnd={() => handleDragEnd()}
+      >
+      {`Please Long Press for 700ms / Draggable : ${draggable}`}
+    </div>
   )
 }
 export default App
