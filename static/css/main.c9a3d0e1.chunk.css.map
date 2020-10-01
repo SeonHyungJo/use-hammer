@@ -1,0 +1,1 @@
+{"version":3,"sources":["/Users/snyung/git/use-hammer/example/src/index.css"],"names":[],"mappings":"AAMA,YACE,WAAY,CACZ,YAAa,CACb,qBACF","file":"main.c9a3d0e1.chunk.css","sourcesContent":["/* body {\n  margin: 0;\n  padding: 0;\n  font-family: sans-serif;\n} */\n\n.sample-div{\n  width: 100px;\n  height: 100px;\n  border: 1px solid #000\n}\n"]}
